@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevConnect Web — Documentación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a24;
+      --border: #1e1e2e;
+      --accent: #7c3aed;
+      --accent2: #06b6d4;
+      --accent3: #10b981;
+      --accent-warn: #f59e0b;
+      --accent-danger: #ef4444;
+      --text: #e4e4f0;
+      --text-muted: #6b6b8a;
+      --text-dim: #3d3d52;
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SIDEBAR ──────────────────────────────────── */
+    .sidebar {
+      width: 260px;
+      min-height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0;
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-logo {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-badge { display: inline-flex; align-items: center; gap: 10px; }
+
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+    .logo-version { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); display: block; margin-top: 2px; }
+
+    .sidebar-nav { padding: 16px 0; flex: 1; }
+
+    .nav-section-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-dim);
+      padding: 12px 24px 6px;
+    }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 24px; font-size: 13px; font-weight: 500;
+      color: var(--text-muted); text-decoration: none;
+      transition: all 0.15s;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      color: var(--text);
+      background: rgba(124, 58, 237, 0.08);
+      border-left-color: var(--accent);
+    }
+
+    .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); flex-shrink: 0; }
+    .nav-item.active .nav-dot { background: var(--accent); }
+
+    /* ── MAIN ─────────────────────────────────────── */
+    .main { margin-left: 260px; flex: 1; max-width: 960px; padding: 0 48px 80px; }
+
+    /* ── HERO ─────────────────────────────────────── */
+    .hero {
+      padding: 72px 0 56px;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+
+    .hero::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 100px; padding: 4px 12px;
+      font-size: 11px; font-weight: 600; color: #a78bfa;
+      letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;
+      background: linear-gradient(135deg, #fff 40%, #7c3aed 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 16px;
+    }
+
+    .hero-sub { font-size: 17px; color: var(--text-muted); line-height: 1.6; max-width: 520px; margin-bottom: 32px; }
+
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 12px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--text-muted); transition: all 0.15s;
+    }
+
+    .badge:hover { border-color: var(--accent); color: var(--text); }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+    /* ── SECTIONS ─────────────────────────────────── */
+    .section { padding-top: 56px; }
+
+    .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
+    .section-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+
+    h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+    h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+
+    .section-divider { height: 1px; background: var(--border); margin: 16px 0 28px; }
+
+    p { font-size: 14px; line-height: 1.7; color: var(--text-muted); }
+
+    /* ── CARDS ────────────────────────────────────── */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 24px;
+      margin-bottom: 12px; transition: border-color 0.2s;
+    }
+
+    .card:hover { border-color: rgba(124,58,237,0.4); }
+
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+
+    .feature-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px; transition: border-color 0.2s;
+    }
+
+    .feature-card:hover { border-color: rgba(6,182,212,0.3); }
+    .feature-emoji { font-size: 22px; margin-bottom: 10px; display: block; }
+    .feature-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .feature-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── ROUTE TABLE ──────────────────────────────── */
+    .route-group { margin-top: 32px; }
+
+    .group-title {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+
+    .group-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .route-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 18px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      margin-bottom: 8px; transition: border-color 0.2s;
+    }
+
+    .route-item:hover { border-color: rgba(124,58,237,0.35); }
+
+    .route-path {
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+      color: var(--text); flex: 1;
+    }
+
+    .route-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+    .auth-badge {
+      font-size: 10px; font-weight: 600; padding: 2px 7px;
+      border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+    }
+
+    .auth-protected {
+      background: rgba(124,58,237,0.15); color: #a78bfa;
+      border: 1px solid rgba(124,58,237,0.3);
+    }
+
+    .auth-public {
+      background: rgba(107,107,138,0.1); color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+
+    /* ── CODE BLOCKS ─────────────────────────────── */
+    .code-block {
+      background: #0d0d14; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      line-height: 1.7; overflow-x: auto; position: relative; margin: 12px 0;
+    }
+
+    .code-label {
+      position: absolute; top: 12px; right: 14px;
+      font-size: 10px; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    .s { color: #a5f3fc; }
+    .k { color: #c084fc; }
+    .n { color: #86efac; }
+    .c { color: #70a8c9; font-style: italic; }
+    .b { color: #fbbf24; }
+
+    /* ── TABLES ───────────────────────────────────── */
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+
+    th {
+      text-align: left; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-muted); padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 10px 14px; color: var(--text-muted);
+      border-bottom: 1px solid rgba(30,30,46,0.5);
+      font-size: 13px; vertical-align: top;
+    }
+
+    td code, th code {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      background: var(--surface2); padding: 2px 6px;
+      border-radius: 4px; color: var(--accent2);
+    }
+
+    tr:hover td { background: rgba(124,58,237,0.04); }
+
+    /* ── FLOW DIAGRAM ────────────────────────────── */
+    .flow-diagram {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px; margin: 20px 0;
+      position: relative; overflow: hidden;
+    }
+
+    .flow-diagram::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 0%, rgba(124,58,237,0.06), transparent 60%);
+      pointer-events: none;
+    }
+
+    .flow-steps { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .flow-step { display: flex; gap: 16px; align-items: flex-start; }
+    .flow-line { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+
+    .flow-circle {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: white; flex-shrink: 0;
+    }
+
+    .flow-connector { width: 2px; flex: 1; min-height: 24px; background: var(--border); margin: 4px 0; }
+    .flow-content { padding: 4px 0 24px; flex: 1; }
+    .flow-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .flow-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── ENV ROWS ────────────────────────────────── */
+    .env-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 16px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 6px;
+    }
+
+    .env-key { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent2); min-width: 200px; flex-shrink: 0; }
+    .env-desc { font-size: 12px; color: var(--text-muted); flex: 1; }
+    .env-default { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent3); }
+
+    /* ── SCRIPT GRID ─────────────────────────────── */
+    .script-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0; }
+
+    .script-item {
+      display: flex; flex-direction: column; gap: 4px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 12px 16px;
+    }
+
+    .script-cmd { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent3); }
+    .script-label { font-size: 11px; color: var(--text-muted); }
+
+    /* ── STORE GRID ──────────────────────────────── */
+    .store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+
+    .store-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+    }
+
+    .store-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent2); margin-bottom: 6px; }
+    .store-key { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
+    .store-val { font-size: 12px; color: var(--text); }
+    .store-desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── SCROLLBAR ───────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* ── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section { animation: fadeUp 0.4s ease both; }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .store-grid { grid-template-columns: 1fr; }
+      .script-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 36px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-badge">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <div class="logo-text">DevConnect</div>
+          <span class="logo-version">Web · Next.js 16</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Resumen</div>
+      <a href="#overview" class="nav-item active"><span class="nav-dot"></span>Introducción</a>
+      <a href="#features" class="nav-item"><span class="nav-dot"></span>Características</a>
+      <a href="#tech-stack" class="nav-item"><span class="nav-dot"></span>Stack Tecnológico</a>
+
+      <div class="nav-section-title">Configuración</div>
+      <a href="#getting-started" class="nav-item"><span class="nav-dot"></span>Primeros Pasos</a>
+      <a href="#environment" class="nav-item"><span class="nav-dot"></span>Variables de Entorno</a>
+
+      <div class="nav-section-title">Arquitectura</div>
+      <a href="#project-structure" class="nav-item"><span class="nav-dot"></span>Estructura del Proyecto</a>
+      <a href="#http-layer" class="nav-item"><span class="nav-dot"></span>Capa HTTP</a>
+      <a href="#auth-flow" class="nav-item"><span class="nav-dot"></span>Flujo de Autenticación</a>
+      <a href="#notification-system" class="nav-item"><span class="nav-dot"></span>Notificaciones</a>
+      <a href="#state-management" class="nav-item"><span class="nav-dot"></span>Gestión de Estado</a>
+
+      <div class="nav-section-title">Páginas</div>
+      <a href="#public-routes" class="nav-item"><span class="nav-dot"></span>Rutas Públicas</a>
+      <a href="#protected-routes" class="nav-item"><span class="nav-dot"></span>Rutas Protegidas</a>
+
+      <div class="nav-section-title">Sistema</div>
+      <a href="#design-system" class="nav-item"><span class="nav-dot"></span>Sistema de Diseño</a>
+      <a href="#i18n" class="nav-item"><span class="nav-dot"></span>Internacionalización</a>
+      <a href="#scripts" class="nav-item"><span class="nav-dot"></span>Scripts</a>
+      <a href="#contributing" class="nav-item"><span class="nav-dot"></span>Contribuir</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HERO -->
+    <section class="hero" id="overview">
+      <div class="hero-tag">⚡ Código Abierto · Frontend Next.js</div>
+      <h1>DevConnect<br />Documentación Web</h1>
+      <p class="hero-sub">Un frontend Next.js de nivel producción para conectar desarrolladores y colaborar en proyectos de código abierto del mundo real. Construido con App Router, TypeScript, Tailwind CSS y Zustand.</p>
+      <div class="hero-badges">
+        <div class="badge"><div class="badge-dot" style="background:#000"></div>Next.js 16</div>
+        <div class="badge"><div class="badge-dot" style="background:#3178C6"></div>TypeScript 5</div>
+        <div class="badge"><div class="badge-dot" style="background:#61DAFB"></div>React 19</div>
+        <div class="badge"><div class="badge-dot" style="background:#38BDF8"></div>Tailwind 3</div>
+        <div class="badge"><div class="badge-dot" style="background:#f97316"></div>Zustand 5</div>
+        <div class="badge"><div class="badge-dot" style="background:#5A29E4"></div>Axios</div>
+        <div class="badge"><div class="badge-dot" style="background:#EC4899"></div>Zod</div>
+      </div>
+    </section>
+
+    <div style="margin-top:24px;">
+      <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
+        data-name="bmc-button" data-slug="m41k80" data-color="#FFDD00" data-emoji=""
+        data-font="Cookie" data-text="Invítame un café" data-outline-color="#000000"
+        data-font-color="#000000" data-coffee-color="#ffffff"></script>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">✦</div>
+        <h2>Características</h2>
+      </div>
+      <div class="section-divider"></div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <span class="feature-emoji">🔐</span>
+          <div class="feature-title">Autenticación por Modal</div>
+          <div class="feature-desc">Inicio de sesión y registro en un modal superpuesto — sin páginas de auth dedicadas. Funciona desde cualquier ruta. Sesión con cookie HttpOnly y refresco silencioso en 401.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🛡️</span>
+          <div class="feature-title">Middleware de Edge</div>
+          <div class="feature-desc">Protección de rutas mediante <code>proxy.ts</code> ejecutado en el Edge de Next.js. Decodifica el JWT, verifica el rol y redirige a usuarios no autenticados antes de renderizar la página.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🔔</span>
+          <div class="feature-title">Doble Sistema de Notificaciones</div>
+          <div class="feature-desc">Insignia roja para dueños de proyectos con solicitudes pendientes. Insignia verde para postulantes aceptados. El estado de aceptación se persiste en localStorage — se limpia cuando el usuario visita su perfil.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🎯</span>
+          <div class="feature-title">Descubrimiento Inteligente</div>
+          <div class="feature-desc">Feed de proyectos con coincidencia por habilidades que muestra puntuaciones del algoritmo de relevancia del backend. Los proyectos se ordenan según el stack tecnológico y rol profesional del usuario.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">💬</span>
+          <div class="feature-title">Integración con Discord</div>
+          <div class="feature-desc">Los miembros aceptados ven un CTA de Discord en la página de detalle del proyecto y en su lista de solicitudes del perfil, redirigiéndolos al espacio de colaboración comunitaria.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🌐</span>
+          <div class="feature-title">Internacionalización</div>
+          <div class="feature-desc">Soporte completo en inglés / español mediante un store i18n personalizado basado en Zustand. Todas las páginas, formularios, páginas legales y el pie de página están completamente traducidos. El idioma se persiste en localStorage.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🎨</span>
+          <div class="feature-title">Sistema de Temas</div>
+          <div class="feature-desc">Modo claro / oscuro con transiciones suaves de variables CSS y script de prevención de parpadeo. Los colores se definen como propiedades personalizadas CSS — nunca como valores hex hardcodeados.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">📱</span>
+          <div class="feature-title">Totalmente Responsivo</div>
+          <div class="feature-desc">Diseño mobile-first con un menú de navegación móvil personalizado a pantalla completa. Cada diseño se prueba a 375px, 768px y 1280px de ancho.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="section" id="tech-stack">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(6,182,212,0.15)">⚙</div>
+        <h2>Stack Tecnológico</h2>
+      </div>
+      <div class="section-divider"></div>
+      <table>
+        <thead><tr><th>Capa</th><th>Tecnología</th><th>Versión</th></tr></thead>
+        <tbody>
+          <tr><td>Framework</td><td>Next.js (App Router)</td><td><code>^16</code></td></tr>
+          <tr><td>Lenguaje</td><td>TypeScript</td><td><code>^5</code></td></tr>
+          <tr><td>Librería UI</td><td>React</td><td><code>^19</code></td></tr>
+          <tr><td>Estilos</td><td>Tailwind CSS + propiedades CSS personalizadas</td><td><code>^3</code></td></tr>
+          <tr><td>Gestión de Estado</td><td>Zustand</td><td><code>^5</code></td></tr>
+          <tr><td>Cliente HTTP</td><td>Axios con interceptores personalizados</td><td><code>^1</code></td></tr>
+          <tr><td>Formularios</td><td>React Hook Form + Zod</td><td>latest</td></tr>
+          <tr><td>Íconos</td><td>Lucide React + React Icons</td><td>latest</td></tr>
+          <tr><td>Decodificación Auth</td><td>jwt-decode (solo Edge)</td><td>latest</td></tr>
+          <tr><td>Fuentes</td><td>Fraunces + DM Sans + DM Mono (Google Fonts)</td><td>—</td></tr>
+          <tr><td>Gestor de Paquetes</td><td>Yarn</td><td><code>^1.22</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- GETTING STARTED -->
+    <section class="section" id="getting-started">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(16,185,129,0.15)">▶</div>
+        <h2>Primeros Pasos</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <h3>Requisitos Previos</h3>
+      <div class="card">
+        <p>Necesitás tener lo siguiente instalado en tu sistema antes de comenzar:</p>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="badge">Node.js ≥ 18</div>
+          <div class="badge">Yarn ≥ 1.22</div>
+          <div class="badge">API de DevConnect en ejecución</div>
+          <div class="badge">Git</div>
+        </div>
+      </div>
+
+      <h3>Instalación</h3>
+      <div class="code-block">
+        <span class="code-label">bash</span>
+        <span class="c"># 1. Clonar el repositorio</span><br>
+        <span class="b">git clone https://github.com/M41k80/devconnect-web.git</span><br>
+        cd devconnect-web<br><br>
+        <span class="c"># 2. Instalar dependencias</span><br>
+        <span class="b">yarn install</span>
+      </div>
+
+      <h3>Configurar Entorno</h3>
+      <div class="code-block">
+        <span class="code-label">bash</span>
+        <span class="b">cp .env.local.example .env.local</span><br>
+        <span class="c"># Editá .env.local — configurá NEXT_PUBLIC_API_URL</span>
+      </div>
+
+      <h3>Ejecutar la App</h3>
+      <div class="code-block">
+        <span class="code-label">bash</span>
+        <span class="c"># Desarrollo (recarga en caliente)</span><br>
+        <span class="b">yarn dev</span><br><br>
+        <span class="c"># Producción</span><br>
+        <span class="b">yarn build && yarn start</span>
+      </div>
+
+      <div class="card" style="border-color:rgba(6,182,212,0.3);background:rgba(6,182,212,0.05);margin-top:16px;">
+        <p style="color:var(--accent2);">🌐 App disponible en <code style="color:white">http://localhost:3001</code><br>⚠️ La <a href="https://github.com/M41k80/devconnect-api-nestjs" style="color:var(--accent2);">API de DevConnect</a> debe estar corriendo en <code style="color:white">http://localhost:3000/api</code> primero.</p>
+      </div>
+    </section>
+
+    <!-- ENVIRONMENT -->
+    <section class="section" id="environment">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(245,158,11,0.15)">⚙</div>
+        <h2>Variables de Entorno</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p style="margin-bottom:16px;">Copiá <code>.env.local.example</code> a <code>.env.local</code> y completá los valores. Solo se requiere una variable.</p>
+
+      <div class="env-row">
+        <div class="env-key">NEXT_PUBLIC_API_URL</div>
+        <div class="env-desc">URL base de la API de DevConnect — sin barra al final. Se incluye en el bundle del cliente al momento de compilar.</div>
+        <div class="env-default">http://localhost:3000/api</div>
+      </div>
+
+      <div class="card" style="border-color:rgba(239,68,68,0.25);background:rgba(239,68,68,0.04);margin-top:12px;">
+        <p style="color:#f87171;">⚠️ Las variables <code>NEXT_PUBLIC_*</code> se incorporan al build en el momento de <strong>compilación</strong>, no en tiempo de ejecución. Deben estar configuradas antes de ejecutar <code>yarn build</code>. Nunca pongas secretos en variables <code>NEXT_PUBLIC_*</code> — son visibles en el navegador.</p>
+      </div>
+    </section>
+
+    <!-- PROJECT STRUCTURE -->
+    <section class="section" id="project-structure">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">📁</div>
+        <h2>Estructura del Proyecto</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="code-block">
+        <span class="code-label">tree</span>
+        src/<br>
+        ├── app/<br>
+        │   ├── <span class="s">(protected)/</span>          <span class="c">← Rutas que requieren autenticación</span><br>
+        │   │   ├── applications/     <span class="c">← Bandeja de solicitudes del dueño</span><br>
+        │   │   ├── discover/         <span class="c">← Feed con coincidencia por habilidades</span><br>
+        │   │   ├── profile/          <span class="c">← Perfil propio + formulario de edición</span><br>
+        │   │   └── projects/new/     <span class="c">← Crear proyecto</span><br>
+        │   ├── <span class="s">(public)/</span>             <span class="c">← No requiere autenticación</span><br>
+        │   │   ├── projects/[id]/    <span class="c">← Detalle del proyecto + postularse</span><br>
+        │   │   ├── users/[id]/       <span class="c">← Perfil público + seguir</span><br>
+        │   │   └── about|terms|privacy/<br>
+        │   ├── <span class="b">components/</span>           <span class="c">← UI organizada por dominio funcional</span><br>
+        │   │   ├── auth/             <span class="c">← AuthModal, LoginForm, RegisterForm</span><br>
+        │   │   ├── landing/          <span class="c">← Hero, Stats, Features, Sponsors, Donate</span><br>
+        │   │   ├── layout/           <span class="c">← Navbar, Footer, UserMenu</span><br>
+        │   │   ├── notifications/    <span class="c">← NotificationBell, ApplicationItem</span><br>
+        │   │   ├── profile/          <span class="c">← ProfileSidebar, ProfileEditForm, etc.</span><br>
+        │   │   ├── project/          <span class="c">← ProjectCard y sub-componentes</span><br>
+        │   │   ├── projects/         <span class="c">← Filtros, paginación, entradas de formulario</span><br>
+        │   │   ├── ui/               <span class="c">← Avatar, Badge, Spinner (primitivos)</span><br>
+        │   │   └── user/             <span class="c">← UserProfileSidebar, UserTabBar, etc.</span><br>
+        │   ├── context/              <span class="c">← ModalContext (controlador del modal de auth)</span><br>
+        │   ├── <span class="b">hooks/</span>                <span class="c">← Toda la obtención de datos y lógica</span><br>
+        │   ├── i18n/                 <span class="c">← Diccionarios EN/ES + useI18n()</span><br>
+        │   ├── lib/<br>
+        │   │   ├── api/              <span class="c">← Módulos API por recurso</span><br>
+        │   │   ├── http/             <span class="c">← Instancia Axios + interceptores + wrappers</span><br>
+        │   │   └── utils.ts          <span class="c">← cn(), formatDate(), truncate()</span><br>
+        │   ├── <span class="b">store/</span>                <span class="c">← Stores de Zustand</span><br>
+        │   ├── styles/globals.css    <span class="c">← Tailwind + variables CSS + sistema de diseño</span><br>
+        │   └── types/                <span class="c">← Entidades, DTOs, enums, paginación</span><br>
+        └── proxy.ts                  <span class="c">← Middleware Edge de Next.js (protección de rutas)</span>
+      </div>
+
+      <h3>La regla de oro</h3>
+      <div class="card">
+        <div class="flow-title" style="margin-bottom:6px;">Las páginas son delgadas. Los hooks manejan datos. Los componentes manejan el renderizado.</div>
+        <div class="flow-desc">Un <code>page.tsx</code> llama a un hook y compone algunos componentes. Nunca contiene <code>useState</code> para datos, <code>useEffect</code> con llamadas fetch, ni importaciones directas de <code>axios</code>. Todo eso pertenece a <code>hooks/</code>.</div>
+      </div>
+    </section>
+
+    <!-- HTTP LAYER -->
+    <section class="section" id="http-layer">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(6,182,212,0.15)">🔌</div>
+        <h2>Capa HTTP</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">Tres niveles de abstracción aíslan responsabilidades y hacen que la capa API sea completamente testeable y reemplazable.</p>
+
+      <div class="flow-diagram">
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line">
+              <div class="flow-circle">1</div>
+              <div class="flow-connector"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">lib/api/*.api.ts — Módulos por recurso</div>
+              <div class="flow-desc">Un archivo por recurso del backend: <code>projects.api.ts</code>, <code>auth.api.ts</code>, <code>users.api.ts</code>, <code>follows.api.ts</code>, <code>stats.api.ts</code>, <code>metadata.api.ts</code>. Todos exportados desde <code>lib/api/index.ts</code>.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line">
+              <div class="flow-circle">2</div>
+              <div class="flow-connector"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">lib/http/http-methods.ts — Wrappers tipados</div>
+              <div class="flow-desc">Wrappers tipados <code>get&lt;T&gt;</code>, <code>post&lt;T&gt;</code>, <code>patch&lt;T&gt;</code>, <code>del&lt;T&gt;</code>. Lanzan un <code>Error</code> con el mensaje del backend si <code>success === false</code>.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line">
+              <div class="flow-circle">3</div>
+              <div class="flow-connector"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">lib/http/http-client.ts — Instancia de Axios</div>
+              <div class="flow-desc">Instancia de Axios con <code>baseURL</code> desde <code>NEXT_PUBLIC_API_URL</code> y <code>withCredentials: true</code>. El flag <code>withCredentials</code> es esencial — sin él, el navegador no enviará la cookie HttpOnly de autenticación.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line">
+              <div class="flow-circle">4</div>
+            </div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-title">lib/http/interceptors.ts — Procesamiento de respuestas</div>
+              <div class="flow-desc">Desenvuelve el sobre <code>{ success, data, message }</code> del backend. En caso de 401: llama silenciosamente a <code>POST /auth/refresh</code> y reintenta la solicitud original. Si el refresco falla: cierra sesión y despacha el CustomEvent <code>open-auth-modal</code>.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTH FLOW -->
+    <section class="section" id="auth-flow">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">🔐</div>
+        <h2>Flujo de Autenticación</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="flow-diagram">
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">1</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">El usuario hace clic en "Iniciar Sesión"</div>
+              <div class="flow-desc"><code>useModal().openAuth("login")</code> → <code>ModalContext</code> establece <code>authOpen = true</code> → <code>&lt;AuthModal&gt;</code> se renderiza con el formulario de login.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">2</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">POST /auth/login</div>
+              <div class="flow-desc">Se envían las credenciales. El backend establece cookies HttpOnly <code>token</code> y <code>refreshToken</code>. El frontend llama a <code>GET /users/me</code>, guarda el usuario en <code>useAuthStore</code>. El modal se cierra.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">3</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Navegar a una ruta protegida</div>
+              <div class="flow-desc"><code>proxy.ts</code> (middleware Edge) decodifica la cookie JWT y extrae el <code>role</code>. Si está autenticado → se renderiza la página. Si no → redirige a <code>/?auth=login&amp;redirect=/ruta-original</code>. <code>ModalContext</code> lee <code>?auth</code> al montarse y abre el modal de login.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">4</div></div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-title">Refresco silencioso de 401</div>
+              <div class="flow-desc">Cualquier solicitud devuelve 401 → <code>interceptors.ts</code> llama a <code>POST /auth/refresh</code> → reintenta la solicitud original. Si el refresco falla → <code>logout()</code> + CustomEvent <code>open-auth-modal</code> → el modal de login se abre sin ninguna navegación de página.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTIFICATION SYSTEM -->
+    <section class="section" id="notification-system">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(239,68,68,0.15)">🔔</div>
+        <h2>Sistema de Notificaciones</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">Dos flujos de notificaciones independientes comparten un store de Zustand (<code>notifications.store.ts</code>).</p>
+
+      <div class="flow-diagram" style="margin-bottom:16px;">
+        <div class="flow-title" style="margin-bottom:12px;">🔴 Notificaciones del dueño — solicitudes pendientes</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">1</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-desc"><code>GET /projects?limit=100</code> → filtrar por <code>owner.id === userId</code></div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">2</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-desc"><code>Promise.allSettled</code> → <code>GET /projects/:id/applications</code> en paralelo para cada proyecto propio</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">3</div></div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-desc">Contar <code>status === "pending"</code> → establecer <code>pendingCount</code> → 🔴 insignia roja en el avatar. TTL de caché: 60s. <code>decrement()</code> se llama tras cada aceptar/rechazar del dueño.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-diagram">
+        <div class="flow-title" style="margin-bottom:12px;">🟢 Notificaciones del postulante — solicitudes aceptadas</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">1</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-desc"><code>GET /projects/applied</code> → filtrar <code>status === "accepted"</code></div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">2</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-desc">Filtrar <code>applicationId NOT IN localStorage("dc-accepted-seen")</code> → establecer <code>acceptedCount</code> → 🟢 insignia verde</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">3</div></div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-desc">El usuario abre <code>/profile</code> → <code>markAcceptedSeen()</code> → guarda IDs aceptados en localStorage → <code>acceptedCount = 0</code> → la insignia desaparece</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATE MANAGEMENT -->
+    <section class="section" id="state-management">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(245,158,11,0.15)">🗄</div>
+        <h2>Gestión de Estado</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">El estado global usa Zustand. El estado de funcionalidades usa hooks personalizados. Un React Context para el modal de autenticación.</p>
+
+      <div class="store-grid">
+        <div class="store-card">
+          <div class="store-name">auth.store.ts</div>
+          <div class="store-key">Persistido</div>
+          <div class="store-val">dc-auth (solo usuario)</div>
+          <div class="store-desc">Identidad del usuario, login, logout, fetchMe. <code>isAuthenticated</code> nunca se persiste — se deriva de <code>user !== null</code> al rehidratar.</div>
+        </div>
+        <div class="store-card">
+          <div class="store-name">notifications.store.ts</div>
+          <div class="store-key">No persistido</div>
+          <div class="store-val">Se recalcula al montar</div>
+          <div class="store-desc"><code>pendingCount</code> (dueño) + <code>acceptedCount</code> (postulante). Caché con TTL de 60s. <code>decrement()</code> para actualizaciones optimistas.</div>
+        </div>
+        <div class="store-card">
+          <div class="store-name">theme.store.ts</div>
+          <div class="store-key">Persistido</div>
+          <div class="store-val">dc-theme</div>
+          <div class="store-desc">Alternancia claro / oscuro. Agrega/elimina la clase <code>.dark</code> en <code>&lt;html&gt;</code>. Script inline de prevención de parpadeo en <code>layout.tsx</code>.</div>
+        </div>
+        <div class="store-card">
+          <div class="store-name">useLocaleStore (i18n)</div>
+          <div class="store-key">Persistido</div>
+          <div class="store-val">dc-locale</div>
+          <div class="store-desc">Preferencia de idioma EN / ES. Usado por <code>useI18n()</code> para devolver el diccionario correcto.</div>
+        </div>
+      </div>
+
+      <h3>Hooks Personalizados (estado por funcionalidad)</h3>
+      <table>
+        <thead><tr><th>Hook</th><th>Maneja</th></tr></thead>
+        <tbody>
+          <tr><td><code>useProjects</code></td><td>Lista de proyectos, filtros, paginación, búsqueda con debounce</td></tr>
+          <tr><td><code>useMyProjects</code></td><td>Proyectos del usuario actual como dueño</td></tr>
+          <tr><td><code>useNewProject</code></td><td>Estado del formulario de nuevo proyecto + esquema Zod + envío</td></tr>
+          <tr><td><code>useProfile</code></td><td>Datos del perfil propio, formulario de edición, lista de proyectos postulados</td></tr>
+          <tr><td><code>useUserProfile</code></td><td>Perfil público, seguidores, seguidos, seguir/dejar de seguir</td></tr>
+          <tr><td><code>useProjectApplications</code></td><td>Solicitudes de un proyecto + aceptar/rechazar</td></tr>
+          <tr><td><code>useNotifications</code></td><td>Proyectos agrupados + solicitudes para la página <code>/applications</code></td></tr>
+          <tr><td><code>useStats</code></td><td>Estadísticas de la plataforma (proyectos, usuarios, solicitudes) para el landing</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- PUBLIC ROUTES -->
+    <section class="section" id="public-routes">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(16,185,129,0.15)">🌍</div>
+        <h2>Rutas Públicas</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p style="margin-bottom:20px;">Accesibles sin autenticación. Algunas funciones interactivas (postularse, seguir) solicitan login si se intentan sin estar autenticado.</p>
+
+      <div class="route-item">
+        <div>
+          <div class="route-path">/</div>
+          <div class="route-desc">Página de inicio — hero, estadísticas en vivo desde la API, funcionalidades, patrocinadores, CTA de donación, pie de página</div>
+        </div>
+        <span class="auth-badge auth-public">Público</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/projects</div>
+          <div class="route-desc">Listado de proyectos con filtros de estado y stack tecnológico, búsqueda con debounce y paginación</div>
+        </div>
+        <span class="auth-badge auth-public">Público</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/projects/:id</div>
+          <div class="route-desc">Detalle del proyecto — descripción, stack tecnológico, miembros del equipo, enlaces. Formulario de postulación (solicita login si no está autenticado). CTA de Discord para miembros aceptados.</div>
+        </div>
+        <span class="auth-badge auth-public">Público</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/users/:id</div>
+          <div class="route-desc">Perfil público del usuario — bio, habilidades, pestañas de seguidores/seguidos. Botón de seguir (solicita login si no está autenticado).</div>
+        </div>
+        <span class="auth-badge auth-public">Público</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/about</div>
+          <div class="route-desc">Sobre DevConnect — misión, valores, CTA de contacto. Completamente traducido EN/ES.</div>
+        </div>
+        <span class="auth-badge auth-public">Público</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/terms</div>
+          <div class="route-desc">Términos de Servicio — 10 secciones. Completamente traducido EN/ES.</div>
+        </div>
+        <span class="auth-badge auth-public">Público</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/privacy</div>
+          <div class="route-desc">Política de Privacidad — 11 secciones. Completamente traducido EN/ES.</div>
+        </div>
+        <span class="auth-badge auth-public">Público</span>
+      </div>
+    </section>
+
+    <!-- PROTECTED ROUTES -->
+    <section class="section" id="protected-routes">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">🔒</div>
+        <h2>Rutas Protegidas</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p style="margin-bottom:20px;">Protegidas por el middleware Edge <code>proxy.ts</code>. Los visitantes no autenticados son redirigidos a <code>/?auth=login&amp;redirect=&lt;ruta-original&gt;</code>.</p>
+
+      <div class="route-item">
+        <div>
+          <div class="route-path">/discover</div>
+          <div class="route-desc">Feed de proyectos con coincidencia por habilidades. Proyectos ordenados por <code>score</code> devuelto por el algoritmo de coincidencia del backend.</div>
+        </div>
+        <span class="auth-badge auth-protected">JWT</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/profile</div>
+          <div class="route-desc">Perfil propio — ver toda la información, formulario de edición, lista de solicitudes enviadas con CTA de Discord en las entradas aceptadas.</div>
+        </div>
+        <span class="auth-badge auth-protected">JWT</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/projects/new</div>
+          <div class="route-desc">Crear un nuevo proyecto. Selector de estado, entrada de stack tecnológico con múltiples etiquetas, enlaces opcionales de repo / demo / docs.</div>
+        </div>
+        <span class="auth-badge auth-protected">JWT</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/applications</div>
+          <div class="route-desc">Bandeja del dueño — todos los proyectos propios agrupados en la barra lateral. Lista de solicitudes por proyecto filtrable por pendiente / aceptada / rechazada. Acciones de aceptar y rechazar con actualizaciones optimistas de UI.</div>
+        </div>
+        <span class="auth-badge auth-protected">JWT (dueño)</span>
+      </div>
+    </section>
+
+    <!-- DESIGN SYSTEM -->
+    <section class="section" id="design-system">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(6,182,212,0.15)">🎨</div>
+        <h2>Sistema de Diseño</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">Todos los colores y sombras son propiedades CSS personalizadas definidas en <code>globals.css</code>. Los componentes referencian variables — nunca valores hex hardcodeados.</p>
+
+      <h3>Tokens de color</h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Claro</th><th>Oscuro</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td><code>--bg</code></td><td>#ffffff</td><td>#0c0e1d</td><td>Fondo de página</td></tr>
+          <tr><td><code>--bg-raised</code></td><td>#f5f6fa</td><td>#141628</td><td>Tarjetas, desplegables</td></tr>
+          <tr><td><code>--bg-overlay</code></td><td>#eaecf4</td><td>#1c1e38</td><td>Estados hover, inputs</td></tr>
+          <tr><td><code>--text</code></td><td>#0f1124</td><td>#eceef8</td><td>Texto principal</td></tr>
+          <tr><td><code>--text-muted</code></td><td>#4a4e6b</td><td>#a0a4c8</td><td>Texto secundario</td></tr>
+          <tr><td><code>--text-dim</code></td><td>#7b7fa0</td><td>#5e6285</td><td>Placeholders, metadatos</td></tr>
+          <tr><td><code>--brand</code></td><td>#5d3fd3</td><td>#7c5ce8</td><td>Acento principal púrpura</td></tr>
+          <tr><td><code>--accent</code></td><td>#06b6d4</td><td>#22d3ee</td><td>Acento secundario cyan</td></tr>
+          <tr><td><code>--success</code></td><td>#22c55e</td><td>#4ade80</td><td>Estados aceptados, éxito</td></tr>
+          <tr><td><code>--danger</code></td><td>#ef4444</td><td>#f87171</td><td>Errores, estados rechazados</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Clases de componentes</h3>
+      <table>
+        <thead><tr><th>Clase</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td><code>.dc-container</code></td><td>max-w-7xl centrado, px responsivo (4→6→8)</td></tr>
+          <tr><td><code>.dc-page</code></td><td>min-h-screen, pt-24 (offset del navbar), pb-20</td></tr>
+          <tr><td><code>.dc-card</code></td><td>rounded-2xl, borde, bg-raised, shadow-card</td></tr>
+          <tr><td><code>.dc-card-interactive</code></td><td>dc-card + hover: borde brand + translateY(-1px)</td></tr>
+          <tr><td><code>.dc-btn-primary</code></td><td>Fondo brand, texto blanco, resplandor en hover</td></tr>
+          <tr><td><code>.dc-btn-ghost</code></td><td>Transparente + borde, color brand en hover</td></tr>
+          <tr><td><code>.dc-input</code></td><td>Input redondeado con bg-overlay, anillo de foco brand</td></tr>
+          <tr><td><code>.dc-label</code></td><td>text-sm, font-medium, color text-muted</td></tr>
+          <tr><td><code>.dc-skeleton</code></td><td>Shimmer animado para estados de carga</td></tr>
+          <tr><td><code>.anim-fade-up</code></td><td>Fade in + deslizar hacia arriba (entrada de contenido de página)</td></tr>
+          <tr><td><code>.anim-scale-in</code></td><td>Escala desde 88% (modales, desplegables)</td></tr>
+          <tr><td><code>.delay-1</code> → <code>.delay-5</code></td><td>Retrasos de animación: 80ms → 400ms</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- I18N -->
+    <section class="section" id="i18n">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(16,185,129,0.15)">🌐</div>
+        <h2>Internacionalización</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">Soporte completo en inglés / español mediante un sistema personalizado basado en Zustand en <code>src/app/i18n/index.ts</code>. El objeto <code>t</code> está completamente tipado — TypeScript lanza errores si se referencia una clave inexistente.</p>
+
+      <div class="code-block">
+        <span class="code-label">tsx</span>
+        <span class="c">// En cualquier componente:</span><br>
+        <span class="k">const</span> { <span class="s">t</span>, <span class="s">locale</span>, <span class="s">setLocale</span> } = <span class="b">useI18n</span>()<br><br>
+        <span class="c">// Acceder a una cadena traducida:</span><br>
+        &lt;<span class="k">p</span>&gt;{t.<span class="s">profile</span>.<span class="s">memberSince</span>}&lt;/<span class="k">p</span>&gt;<br><br>
+        <span class="c">// Cambiar idioma:</span><br>
+        <span class="b">setLocale</span>(<span class="s">'es'</span>)
+      </div>
+
+      <h3>Secciones del diccionario</h3>
+      <table>
+        <thead><tr><th>Sección</th><th>Cubre</th></tr></thead>
+        <tbody>
+          <tr><td><code>t.nav</code></td><td>Enlaces de navegación, botones de auth, ítems del menú de usuario</td></tr>
+          <tr><td><code>t.landing</code></td><td>Hero, estadísticas, funcionalidades, patrocinadores, donación, banner CTA</td></tr>
+          <tr><td><code>t.auth</code></td><td>Etiquetas y botones del formulario de login y registro</td></tr>
+          <tr><td><code>t.projects</code></td><td>Página de listado de proyectos — filtros, búsqueda, estados vacíos</td></tr>
+          <tr><td><code>t.project</code></td><td>Detalle del proyecto — formulario de postulación, equipo, enlaces, etiquetas de estado</td></tr>
+          <tr><td><code>t.profile</code></td><td>Página de perfil — etiquetas del formulario de edición, sección de solicitudes</td></tr>
+          <tr><td><code>t.applications</code></td><td>Bandeja de solicitudes del dueño — pestañas, acciones, estados vacíos</td></tr>
+          <tr><td><code>t.about</code></td><td>Página sobre DevConnect — titular, misión, valores, CTA de contacto</td></tr>
+          <tr><td><code>t.terms</code></td><td>Términos de Servicio — las 10 secciones (título + cuerpo)</td></tr>
+          <tr><td><code>t.privacy</code></td><td>Política de Privacidad — las 11 secciones (título + cuerpo)</td></tr>
+          <tr><td><code>t.footer</code></td><td>Encabezados de columnas del pie de página, etiquetas de enlaces, eslogan, copyright</td></tr>
+          <tr><td><code>t.status</code></td><td>Etiquetas de los enums ProjectStatus y ApplicationStatus</td></tr>
+          <tr><td><code>t.common</code></td><td>Etiquetas de cargando, error, reintentar, opcional, no encontrado</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SCRIPTS -->
+    <section class="section" id="scripts">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(16,185,129,0.15)">⚡</div>
+        <h2>Scripts</h2>
+      </div>
+      <div class="section-divider"></div>
+      <div class="script-grid">
+        <div class="script-item">
+          <div class="script-cmd">yarn dev</div>
+          <div class="script-label">Iniciar servidor de desarrollo (recarga en caliente)</div>
+        </div>
+        <div class="script-item">
+          <div class="script-cmd">yarn build</div>
+          <div class="script-label">Compilar bundle de producción</div>
+        </div>
+        <div class="script-item">
+          <div class="script-cmd">yarn start</div>
+          <div class="script-label">Servir build de producción (requiere build previo)</div>
+        </div>
+        <div class="script-item">
+          <div class="script-cmd">yarn lint</div>
+          <div class="script-label">Ejecutar ESLint en todos los archivos fuente</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTRIBUTING -->
+    <section class="section" id="contributing">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">🤝</div>
+        <h2>Contribuir</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="flow-diagram">
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">1</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Fork y Clonar</div>
+              <div class="flow-desc">Hacé un fork del repositorio en GitHub y cloná tu fork localmente. Agregá el remote upstream: <code>git remote add upstream https://github.com/M41k80/devconnect-web.git</code></div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">2</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Crear una Rama</div>
+              <div class="flow-desc"><code>git checkout -b feat/nombre-de-tu-funcionalidad</code> — creá la rama desde un <code>main</code> actualizado.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">3</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Escribir Código</div>
+              <div class="flow-desc">Seguí la arquitectura: páginas delgadas, hooks para datos, componentes para renderizado. Sin tipos <code>any</code>. Variables CSS para colores. Cadenas tanto en EN como en ES en el i18n.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">4</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Commit (Conventional Commits)</div>
+              <div class="flow-desc">
+                <code>feat(notifications): add green badge for accepted apps</code><br>
+                <code>fix(auth): prevent double modal on 401</code><br>
+                <code>style(landing): improve dark mode contrast</code>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">5</div></div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-title">Abrir un Pull Request</div>
+              <div class="flow-desc">Subí tu rama y abrí un PR contra <code>main</code>. Asegurate de que <code>yarn lint</code> y <code>yarn build</code> pasen. Probá en modo claro + oscuro y en móvil.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;border-color:rgba(124,58,237,0.3);background:rgba(124,58,237,0.05);text-align:center;">
+        <p style="color:var(--text-muted);">Hecho con ❤️ por <a href="https://github.com/M41k80" style="color:#a78bfa;">m41k80</a> · Licencia MIT · <a href="https://discord.gg/5xEWnfJDjt" style="color:#a78bfa;">Únete al Discord</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const navItems = document.querySelectorAll('.nav-item');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navItems.forEach(item => {
+            item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    document.querySelectorAll('[id]').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

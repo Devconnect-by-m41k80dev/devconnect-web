@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevConnect Web — Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a24;
+      --border: #1e1e2e;
+      --accent: #7c3aed;
+      --accent2: #06b6d4;
+      --accent3: #10b981;
+      --accent-warn: #f59e0b;
+      --accent-danger: #ef4444;
+      --text: #e4e4f0;
+      --text-muted: #6b6b8a;
+      --text-dim: #3d3d52;
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SIDEBAR ──────────────────────────────────── */
+    .sidebar {
+      width: 260px;
+      min-height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0;
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-logo {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-badge { display: inline-flex; align-items: center; gap: 10px; }
+
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+    .logo-version { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); display: block; margin-top: 2px; }
+
+    .sidebar-nav { padding: 16px 0; flex: 1; }
+
+    .nav-section-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-dim);
+      padding: 12px 24px 6px;
+    }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 24px; font-size: 13px; font-weight: 500;
+      color: var(--text-muted); text-decoration: none;
+      transition: all 0.15s;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      color: var(--text);
+      background: rgba(124, 58, 237, 0.08);
+      border-left-color: var(--accent);
+    }
+
+    .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); flex-shrink: 0; }
+    .nav-item.active .nav-dot { background: var(--accent); }
+
+    /* ── MAIN ─────────────────────────────────────── */
+    .main { margin-left: 260px; flex: 1; max-width: 960px; padding: 0 48px 80px; }
+
+    /* ── HERO ─────────────────────────────────────── */
+    .hero {
+      padding: 72px 0 56px;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+
+    .hero::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 100px; padding: 4px 12px;
+      font-size: 11px; font-weight: 600; color: #a78bfa;
+      letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;
+      background: linear-gradient(135deg, #fff 40%, #7c3aed 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 16px;
+    }
+
+    .hero-sub { font-size: 17px; color: var(--text-muted); line-height: 1.6; max-width: 520px; margin-bottom: 32px; }
+
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 12px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--text-muted); transition: all 0.15s;
+    }
+
+    .badge:hover { border-color: var(--accent); color: var(--text); }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+    /* ── SECTIONS ─────────────────────────────────── */
+    .section { padding-top: 56px; }
+
+    .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
+    .section-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+
+    h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+    h3 { font-size: 16px; font-weight: 600; margin: 28px 0 12px; color: var(--text); }
+
+    .section-divider { height: 1px; background: var(--border); margin: 16px 0 28px; }
+
+    p { font-size: 14px; line-height: 1.7; color: var(--text-muted); }
+
+    /* ── CARDS ────────────────────────────────────── */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 24px;
+      margin-bottom: 12px; transition: border-color 0.2s;
+    }
+
+    .card:hover { border-color: rgba(124,58,237,0.4); }
+
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+
+    .feature-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px; transition: border-color 0.2s;
+    }
+
+    .feature-card:hover { border-color: rgba(6,182,212,0.3); }
+    .feature-emoji { font-size: 22px; margin-bottom: 10px; display: block; }
+    .feature-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .feature-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── ROUTE TABLE ──────────────────────────────── */
+    .route-group { margin-top: 32px; }
+
+    .group-title {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+
+    .group-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .route-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 18px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      margin-bottom: 8px; transition: border-color 0.2s;
+    }
+
+    .route-item:hover { border-color: rgba(124,58,237,0.35); }
+
+    .route-path {
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+      color: var(--text); flex: 1;
+    }
+
+    .route-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+    .auth-badge {
+      font-size: 10px; font-weight: 600; padding: 2px 7px;
+      border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+    }
+
+    .auth-protected {
+      background: rgba(124,58,237,0.15); color: #a78bfa;
+      border: 1px solid rgba(124,58,237,0.3);
+    }
+
+    .auth-public {
+      background: rgba(107,107,138,0.1); color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+
+    /* ── CODE BLOCKS ─────────────────────────────── */
+    .code-block {
+      background: #0d0d14; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      line-height: 1.7; overflow-x: auto; position: relative; margin: 12px 0;
+    }
+
+    .code-label {
+      position: absolute; top: 12px; right: 14px;
+      font-size: 10px; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    .s { color: #a5f3fc; }
+    .k { color: #c084fc; }
+    .n { color: #86efac; }
+    .c { color: #70a8c9; font-style: italic; }
+    .b { color: #fbbf24; }
+
+    /* ── TABLES ───────────────────────────────────── */
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+
+    th {
+      text-align: left; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-muted); padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 10px 14px; color: var(--text-muted);
+      border-bottom: 1px solid rgba(30,30,46,0.5);
+      font-size: 13px; vertical-align: top;
+    }
+
+    td code, th code {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      background: var(--surface2); padding: 2px 6px;
+      border-radius: 4px; color: var(--accent2);
+    }
+
+    tr:hover td { background: rgba(124,58,237,0.04); }
+
+    /* ── FLOW DIAGRAM ────────────────────────────── */
+    .flow-diagram {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px; margin: 20px 0;
+      position: relative; overflow: hidden;
+    }
+
+    .flow-diagram::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 0%, rgba(124,58,237,0.06), transparent 60%);
+      pointer-events: none;
+    }
+
+    .flow-steps { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .flow-step { display: flex; gap: 16px; align-items: flex-start; }
+    .flow-line { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+
+    .flow-circle {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: white; flex-shrink: 0;
+    }
+
+    .flow-connector { width: 2px; flex: 1; min-height: 24px; background: var(--border); margin: 4px 0; }
+    .flow-content { padding: 4px 0 24px; flex: 1; }
+    .flow-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .flow-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── ENV ROWS ────────────────────────────────── */
+    .env-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 16px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 6px;
+    }
+
+    .env-key { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent2); min-width: 200px; flex-shrink: 0; }
+    .env-desc { font-size: 12px; color: var(--text-muted); flex: 1; }
+    .env-default { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent3); }
+
+    /* ── SCRIPT GRID ─────────────────────────────── */
+    .script-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0; }
+
+    .script-item {
+      display: flex; flex-direction: column; gap: 4px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 12px 16px;
+    }
+
+    .script-cmd { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent3); }
+    .script-label { font-size: 11px; color: var(--text-muted); }
+
+    /* ── STORE GRID ──────────────────────────────── */
+    .store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+
+    .store-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+    }
+
+    .store-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent2); margin-bottom: 6px; }
+    .store-key { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
+    .store-val { font-size: 12px; color: var(--text); }
+    .store-desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── SCROLLBAR ───────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* ── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section { animation: fadeUp 0.4s ease both; }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .store-grid { grid-template-columns: 1fr; }
+      .script-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 36px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-badge">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <div class="logo-text">DevConnect</div>
+          <span class="logo-version">Web · Next.js 16</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Overview</div>
+      <a href="#overview" class="nav-item active"><span class="nav-dot"></span>Introduction</a>
+      <a href="#features" class="nav-item"><span class="nav-dot"></span>Features</a>
+      <a href="#tech-stack" class="nav-item"><span class="nav-dot"></span>Tech Stack</a>
+
+      <div class="nav-section-title">Setup</div>
+      <a href="#getting-started" class="nav-item"><span class="nav-dot"></span>Getting Started</a>
+      <a href="#environment" class="nav-item"><span class="nav-dot"></span>Environment Variables</a>
+
+      <div class="nav-section-title">Architecture</div>
+      <a href="#project-structure" class="nav-item"><span class="nav-dot"></span>Project Structure</a>
+      <a href="#http-layer" class="nav-item"><span class="nav-dot"></span>HTTP Layer</a>
+      <a href="#auth-flow" class="nav-item"><span class="nav-dot"></span>Auth Flow</a>
+      <a href="#notification-system" class="nav-item"><span class="nav-dot"></span>Notifications</a>
+      <a href="#state-management" class="nav-item"><span class="nav-dot"></span>State Management</a>
+
+      <div class="nav-section-title">Pages</div>
+      <a href="#public-routes" class="nav-item"><span class="nav-dot"></span>Public Routes</a>
+      <a href="#protected-routes" class="nav-item"><span class="nav-dot"></span>Protected Routes</a>
+
+      <div class="nav-section-title">System</div>
+      <a href="#design-system" class="nav-item"><span class="nav-dot"></span>Design System</a>
+      <a href="#i18n" class="nav-item"><span class="nav-dot"></span>Internationalization</a>
+      <a href="#scripts" class="nav-item"><span class="nav-dot"></span>Scripts</a>
+      <a href="#contributing" class="nav-item"><span class="nav-dot"></span>Contributing</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HERO -->
+    <section class="hero" id="overview">
+      <div class="hero-tag">⚡ Open Source · Next.js Frontend</div>
+      <h1>DevConnect<br />Web Docs</h1>
+      <p class="hero-sub">A production-grade Next.js frontend for connecting developers to collaborate on real-world open source projects. Built with App Router, TypeScript, Tailwind CSS, and Zustand.</p>
+      <div class="hero-badges">
+        <div class="badge"><div class="badge-dot" style="background:#000"></div>Next.js 16</div>
+        <div class="badge"><div class="badge-dot" style="background:#3178C6"></div>TypeScript 5</div>
+        <div class="badge"><div class="badge-dot" style="background:#61DAFB"></div>React 19</div>
+        <div class="badge"><div class="badge-dot" style="background:#38BDF8"></div>Tailwind 3</div>
+        <div class="badge"><div class="badge-dot" style="background:#f97316"></div>Zustand 5</div>
+        <div class="badge"><div class="badge-dot" style="background:#5A29E4"></div>Axios</div>
+        <div class="badge"><div class="badge-dot" style="background:#EC4899"></div>Zod</div>
+      </div>
+    </section>
+
+    <div style="margin-top:24px;">
+      <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
+        data-name="bmc-button" data-slug="m41k80" data-color="#FFDD00" data-emoji=""
+        data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000"
+        data-font-color="#000000" data-coffee-color="#ffffff"></script>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">✦</div>
+        <h2>Features</h2>
+      </div>
+      <div class="section-divider"></div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <span class="feature-emoji">🔐</span>
+          <div class="feature-title">Modal-Based Auth</div>
+          <div class="feature-desc">Login and registration in a modal overlay — no dedicated auth pages. Works from any route. HttpOnly cookie session with silent refresh on 401.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🛡️</span>
+          <div class="feature-title">Edge Middleware</div>
+          <div class="feature-desc">Route protection via <code>proxy.ts</code> running on the Next.js Edge. Decodes JWT, checks role, and redirects unauthenticated users before the page renders.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🔔</span>
+          <div class="feature-title">Dual Notifications</div>
+          <div class="feature-desc">Red badge for project owners with pending applications. Green badge for applicants who were accepted. Accepted state persisted to localStorage — clears when user visits profile.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🎯</span>
+          <div class="feature-title">Smart Discovery</div>
+          <div class="feature-desc">Skill-matched project feed that displays scores from the backend's relevance algorithm. Projects ranked by match with the user's tech stack and professional role.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">💬</span>
+          <div class="feature-title">Discord Integration</div>
+          <div class="feature-desc">Accepted members see a Discord CTA on the project detail page and in their profile applications list, routing them to the community collaboration space.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🌐</span>
+          <div class="feature-title">Internationalization</div>
+          <div class="feature-desc">Full English / Spanish support via a custom Zustand-based i18n store. All pages, forms, legal pages, and the footer are fully translated. Locale persisted to localStorage.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">🎨</span>
+          <div class="feature-title">Theme System</div>
+          <div class="feature-desc">Light / dark mode with smooth CSS variable transitions and inline flash-prevention script. Colors defined as CSS custom properties — never hardcoded hex values.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-emoji">📱</span>
+          <div class="feature-title">Fully Responsive</div>
+          <div class="feature-desc">Mobile-first design with a custom full-screen mobile navigation menu. Every layout tested at 375px, 768px, and 1280px viewports.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="section" id="tech-stack">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(6,182,212,0.15)">⚙</div>
+        <h2>Tech Stack</h2>
+      </div>
+      <div class="section-divider"></div>
+      <table>
+        <thead><tr><th>Layer</th><th>Technology</th><th>Version</th></tr></thead>
+        <tbody>
+          <tr><td>Framework</td><td>Next.js (App Router)</td><td><code>^16</code></td></tr>
+          <tr><td>Language</td><td>TypeScript</td><td><code>^5</code></td></tr>
+          <tr><td>UI Library</td><td>React</td><td><code>^19</code></td></tr>
+          <tr><td>Styling</td><td>Tailwind CSS + CSS custom properties</td><td><code>^3</code></td></tr>
+          <tr><td>State Management</td><td>Zustand</td><td><code>^5</code></td></tr>
+          <tr><td>HTTP Client</td><td>Axios with custom interceptors</td><td><code>^1</code></td></tr>
+          <tr><td>Forms</td><td>React Hook Form + Zod</td><td>latest</td></tr>
+          <tr><td>Icons</td><td>Lucide React + React Icons</td><td>latest</td></tr>
+          <tr><td>Auth Decoding</td><td>jwt-decode (Edge only)</td><td>latest</td></tr>
+          <tr><td>Fonts</td><td>Fraunces + DM Sans + DM Mono (Google Fonts)</td><td>—</td></tr>
+          <tr><td>Package Manager</td><td>Yarn</td><td><code>^1.22</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- GETTING STARTED -->
+    <section class="section" id="getting-started">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(16,185,129,0.15)">▶</div>
+        <h2>Getting Started</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <h3>Prerequisites</h3>
+      <div class="card">
+        <p>You need the following installed on your system before getting started:</p>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="badge">Node.js ≥ 18</div>
+          <div class="badge">Yarn ≥ 1.22</div>
+          <div class="badge">DevConnect API running</div>
+          <div class="badge">Git</div>
+        </div>
+      </div>
+
+      <h3>Installation</h3>
+      <div class="code-block">
+        <span class="code-label">bash</span>
+        <span class="c"># 1. Clone the repository</span><br>
+        <span class="b">git clone https://github.com/M41k80/devconnect-web.git</span><br>
+        cd devconnect-web<br><br>
+        <span class="c"># 2. Install dependencies</span><br>
+        <span class="b">yarn install</span>
+      </div>
+
+      <h3>Configure Environment</h3>
+      <div class="code-block">
+        <span class="code-label">bash</span>
+        <span class="b">cp .env.local.example .env.local</span><br>
+        <span class="c"># Edit .env.local — set NEXT_PUBLIC_API_URL</span>
+      </div>
+
+      <h3>Run the App</h3>
+      <div class="code-block">
+        <span class="code-label">bash</span>
+        <span class="c"># Development (hot reload)</span><br>
+        <span class="b">yarn dev</span><br><br>
+        <span class="c"># Production</span><br>
+        <span class="b">yarn build && yarn start</span>
+      </div>
+
+      <div class="card" style="border-color:rgba(6,182,212,0.3);background:rgba(6,182,212,0.05);margin-top:16px;">
+        <p style="color:var(--accent2);">🌐 App available at <code style="color:white">http://localhost:3001</code><br>⚠️ The <a href="https://github.com/M41k80/devconnect-api-nestjs" style="color:var(--accent2);">DevConnect API</a> must be running at <code style="color:white">http://localhost:3000/api</code> first.</p>
+      </div>
+    </section>
+
+    <!-- ENVIRONMENT -->
+    <section class="section" id="environment">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(245,158,11,0.15)">⚙</div>
+        <h2>Environment Variables</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p style="margin-bottom:16px;">Copy <code>.env.local.example</code> to <code>.env.local</code> and fill in your values. Only one variable is required.</p>
+
+      <div class="env-row">
+        <div class="env-key">NEXT_PUBLIC_API_URL</div>
+        <div class="env-desc">Base URL of the DevConnect API — no trailing slash. Embedded in the client bundle at build time.</div>
+        <div class="env-default">http://localhost:3000/api</div>
+      </div>
+
+      <div class="card" style="border-color:rgba(239,68,68,0.25);background:rgba(239,68,68,0.04);margin-top:12px;">
+        <p style="color:#f87171;">⚠️ <code>NEXT_PUBLIC_*</code> variables are baked into the build at <strong>build time</strong>, not runtime. They must be set before running <code>yarn build</code>. Never put secrets in <code>NEXT_PUBLIC_*</code> variables — they are visible in the browser.</p>
+      </div>
+    </section>
+
+    <!-- PROJECT STRUCTURE -->
+    <section class="section" id="project-structure">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">📁</div>
+        <h2>Project Structure</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="code-block">
+        <span class="code-label">tree</span>
+        src/<br>
+        ├── app/<br>
+        │   ├── <span class="s">(protected)/</span>          <span class="c">← Routes requiring authentication</span><br>
+        │   │   ├── applications/     <span class="c">← Owner's application inbox</span><br>
+        │   │   ├── discover/         <span class="c">← Skill-matched feed</span><br>
+        │   │   ├── profile/          <span class="c">← Own profile + edit form</span><br>
+        │   │   └── projects/new/     <span class="c">← Create project</span><br>
+        │   ├── <span class="s">(public)/</span>             <span class="c">← No authentication required</span><br>
+        │   │   ├── projects/[id]/    <span class="c">← Project detail + apply</span><br>
+        │   │   ├── users/[id]/       <span class="c">← Public profile + follow</span><br>
+        │   │   └── about|terms|privacy/<br>
+        │   ├── <span class="b">components/</span>           <span class="c">← UI organized by feature domain</span><br>
+        │   │   ├── auth/             <span class="c">← AuthModal, LoginForm, RegisterForm</span><br>
+        │   │   ├── landing/          <span class="c">← Hero, Stats, Features, Sponsors, Donate</span><br>
+        │   │   ├── layout/           <span class="c">← Navbar, Footer, UserMenu</span><br>
+        │   │   ├── notifications/    <span class="c">← NotificationBell, ApplicationItem</span><br>
+        │   │   ├── profile/          <span class="c">← ProfileSidebar, ProfileEditForm, etc.</span><br>
+        │   │   ├── project/          <span class="c">← ProjectCard and sub-components</span><br>
+        │   │   ├── projects/         <span class="c">← Filters, pagination, form inputs</span><br>
+        │   │   ├── ui/               <span class="c">← Avatar, Badge, Spinner (primitives)</span><br>
+        │   │   └── user/             <span class="c">← UserProfileSidebar, UserTabBar, etc.</span><br>
+        │   ├── context/              <span class="c">← ModalContext (auth modal controller)</span><br>
+        │   ├── <span class="b">hooks/</span>                <span class="c">← All data fetching and logic</span><br>
+        │   ├── i18n/                 <span class="c">← EN/ES dictionaries + useI18n()</span><br>
+        │   ├── lib/<br>
+        │   │   ├── api/              <span class="c">← Resource-specific API modules</span><br>
+        │   │   ├── http/             <span class="c">← Axios instance + interceptors + wrappers</span><br>
+        │   │   └── utils.ts          <span class="c">← cn(), formatDate(), truncate()</span><br>
+        │   ├── <span class="b">store/</span>                <span class="c">← Zustand stores</span><br>
+        │   ├── styles/globals.css    <span class="c">← Tailwind + CSS variables + design system</span><br>
+        │   └── types/                <span class="c">← Entities, DTOs, enums, pagination</span><br>
+        └── proxy.ts                  <span class="c">← Next.js Edge middleware (route protection)</span>
+      </div>
+
+      <h3>The golden rule</h3>
+      <div class="card">
+        <div class="flow-title" style="margin-bottom:6px;">Pages are thin. Hooks own data. Components own rendering.</div>
+        <div class="flow-desc">A <code>page.tsx</code> calls one hook and composes a few components. It never contains <code>useState</code> for data, <code>useEffect</code> with fetch calls, or direct <code>axios</code> imports. All that belongs in <code>hooks/</code>.</div>
+      </div>
+    </section>
+
+    <!-- HTTP LAYER -->
+    <section class="section" id="http-layer">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(6,182,212,0.15)">🔌</div>
+        <h2>HTTP Layer</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">Three levels of abstraction isolate concerns and make the API layer fully testable and replaceable.</p>
+
+      <div class="flow-diagram">
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line">
+              <div class="flow-circle">1</div>
+              <div class="flow-connector"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">lib/api/*.api.ts — Resource modules</div>
+              <div class="flow-desc">One file per backend resource: <code>projects.api.ts</code>, <code>auth.api.ts</code>, <code>users.api.ts</code>, <code>follows.api.ts</code>, <code>stats.api.ts</code>, <code>metadata.api.ts</code>. All exported from <code>lib/api/index.ts</code>.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line">
+              <div class="flow-circle">2</div>
+              <div class="flow-connector"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">lib/http/http-methods.ts — Typed wrappers</div>
+              <div class="flow-desc">Typed <code>get&lt;T&gt;</code>, <code>post&lt;T&gt;</code>, <code>patch&lt;T&gt;</code>, <code>del&lt;T&gt;</code> wrappers. Throw an <code>Error</code> with the backend's message string if <code>success === false</code>.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line">
+              <div class="flow-circle">3</div>
+              <div class="flow-connector"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-title">lib/http/http-client.ts — Axios instance</div>
+              <div class="flow-desc">Axios instance with <code>baseURL</code> from <code>NEXT_PUBLIC_API_URL</code> and <code>withCredentials: true</code>. The <code>withCredentials</code> flag is essential — without it, the browser won't send the HttpOnly auth cookie.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line">
+              <div class="flow-circle">4</div>
+            </div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-title">lib/http/interceptors.ts — Response processing</div>
+              <div class="flow-desc">Unwraps the backend's <code>{ success, data, message }</code> envelope. On 401: silently calls <code>POST /auth/refresh</code>, retries the original request. If refresh fails: logs out and dispatches <code>open-auth-modal</code> CustomEvent.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTH FLOW -->
+    <section class="section" id="auth-flow">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">🔐</div>
+        <h2>Authentication Flow</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="flow-diagram">
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">1</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">User clicks "Sign In"</div>
+              <div class="flow-desc"><code>useModal().openAuth("login")</code> → <code>ModalContext</code> sets <code>authOpen = true</code> → <code>&lt;AuthModal&gt;</code> renders with the login form.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">2</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">POST /auth/login</div>
+              <div class="flow-desc">Credentials sent. Backend sets HttpOnly <code>token</code> and <code>refreshToken</code> cookies. Frontend calls <code>GET /users/me</code>, sets user in <code>useAuthStore</code>. Modal closes.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">3</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Navigate to protected route</div>
+              <div class="flow-desc"><code>proxy.ts</code> (Edge middleware) decodes the JWT cookie, extracts <code>role</code>. If authenticated → page renders. If not → redirect to <code>/?auth=login&amp;redirect=/original-path</code>. <code>ModalContext</code> reads <code>?auth</code> on mount and opens the login modal.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">4</div></div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-title">Silent 401 refresh</div>
+              <div class="flow-desc">Any request returns 401 → <code>interceptors.ts</code> calls <code>POST /auth/refresh</code> → replays original request. If refresh fails → <code>logout()</code> + <code>open-auth-modal</code> CustomEvent → login modal opens without any page navigation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTIFICATION SYSTEM -->
+    <section class="section" id="notification-system">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(239,68,68,0.15)">🔔</div>
+        <h2>Notification System</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">Two independent notification streams share one Zustand store (<code>notifications.store.ts</code>).</p>
+
+      <div class="flow-diagram" style="margin-bottom:16px;">
+        <div class="flow-title" style="margin-bottom:12px;">🔴 Owner notifications — pending applications</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">1</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-desc"><code>GET /projects?limit=100</code> → filter by <code>owner.id === userId</code></div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">2</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-desc"><code>Promise.allSettled</code> → parallel <code>GET /projects/:id/applications</code> for each owned project</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">3</div></div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-desc">Count <code>status === "pending"</code> → set <code>pendingCount</code> → 🔴 red badge on avatar. Cache TTL: 60s. <code>decrement()</code> called after each owner accept/reject.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-diagram">
+        <div class="flow-title" style="margin-bottom:12px;">🟢 Applicant notifications — accepted applications</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">1</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-desc"><code>GET /projects/applied</code> → filter <code>status === "accepted"</code></div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">2</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-desc">Filter <code>applicationId NOT IN localStorage("dc-accepted-seen")</code> → set <code>acceptedCount</code> → 🟢 green badge</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle" style="font-size:9px">3</div></div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-desc">User opens <code>/profile</code> → <code>markAcceptedSeen()</code> → saves accepted IDs to localStorage → <code>acceptedCount = 0</code> → badge disappears</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATE MANAGEMENT -->
+    <section class="section" id="state-management">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(245,158,11,0.15)">🗄</div>
+        <h2>State Management</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">Global state uses Zustand. Feature state uses custom hooks. One React Context for the auth modal.</p>
+
+      <div class="store-grid">
+        <div class="store-card">
+          <div class="store-name">auth.store.ts</div>
+          <div class="store-key">Persisted</div>
+          <div class="store-val">dc-auth (user only)</div>
+          <div class="store-desc">User identity, login, logout, fetchMe. <code>isAuthenticated</code> is never persisted — derived from <code>user !== null</code> on rehydration.</div>
+        </div>
+        <div class="store-card">
+          <div class="store-name">notifications.store.ts</div>
+          <div class="store-key">Not persisted</div>
+          <div class="store-val">Recalculated on mount</div>
+          <div class="store-desc"><code>pendingCount</code> (owner) + <code>acceptedCount</code> (applicant). 60s TTL cache. <code>decrement()</code> for optimistic updates.</div>
+        </div>
+        <div class="store-card">
+          <div class="store-name">theme.store.ts</div>
+          <div class="store-key">Persisted</div>
+          <div class="store-val">dc-theme</div>
+          <div class="store-desc">light / dark toggle. Adds/removes <code>.dark</code> class on <code>&lt;html&gt;</code>. Flash-prevention inline script in <code>layout.tsx</code>.</div>
+        </div>
+        <div class="store-card">
+          <div class="store-name">useLocaleStore (i18n)</div>
+          <div class="store-key">Persisted</div>
+          <div class="store-val">dc-locale</div>
+          <div class="store-desc">EN / ES language preference. Used by <code>useI18n()</code> to return the correct dictionary.</div>
+        </div>
+      </div>
+
+      <h3>Custom Hooks (feature-scoped state)</h3>
+      <table>
+        <thead><tr><th>Hook</th><th>Owns</th></tr></thead>
+        <tbody>
+          <tr><td><code>useProjects</code></td><td>Project list, filters, pagination, debounced search</td></tr>
+          <tr><td><code>useMyProjects</code></td><td>Projects owned by the current user</td></tr>
+          <tr><td><code>useNewProject</code></td><td>New project form state + Zod schema + submit</td></tr>
+          <tr><td><code>useProfile</code></td><td>Own profile data, edit form, applied projects list</td></tr>
+          <tr><td><code>useUserProfile</code></td><td>Public profile, followers, following, follow/unfollow</td></tr>
+          <tr><td><code>useProjectApplications</code></td><td>Applications for a single project + accept/reject</td></tr>
+          <tr><td><code>useNotifications</code></td><td>Grouped projects + applications for <code>/applications</code> page</td></tr>
+          <tr><td><code>useStats</code></td><td>Platform stats (projects, users, applications) for landing</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- PUBLIC ROUTES -->
+    <section class="section" id="public-routes">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(16,185,129,0.15)">🌍</div>
+        <h2>Public Routes</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p style="margin-bottom:20px;">Accessible without authentication. Some interactive features (apply, follow) prompt login if attempted while unauthenticated.</p>
+
+      <div class="route-item">
+        <div>
+          <div class="route-path">/</div>
+          <div class="route-desc">Landing page — hero, live stats from API, features, sponsors, donate CTA, footer</div>
+        </div>
+        <span class="auth-badge auth-public">Public</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/projects</div>
+          <div class="route-desc">Project listing with status + tech stack filters, debounced search, and pagination</div>
+        </div>
+        <span class="auth-badge auth-public">Public</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/projects/:id</div>
+          <div class="route-desc">Project detail — description, tech stack, team members, links. Apply form (prompts login if unauthenticated). Discord CTA for accepted members.</div>
+        </div>
+        <span class="auth-badge auth-public">Public</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/users/:id</div>
+          <div class="route-desc">Public user profile — bio, skills, followers/following tabs. Follow button (prompts login if unauthenticated).</div>
+        </div>
+        <span class="auth-badge auth-public">Public</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/about</div>
+          <div class="route-desc">About DevConnect — mission, values, contact CTA. Fully translated EN/ES.</div>
+        </div>
+        <span class="auth-badge auth-public">Public</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/terms</div>
+          <div class="route-desc">Terms of Service — 10 sections. Fully translated EN/ES.</div>
+        </div>
+        <span class="auth-badge auth-public">Public</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/privacy</div>
+          <div class="route-desc">Privacy Policy — 11 sections. Fully translated EN/ES.</div>
+        </div>
+        <span class="auth-badge auth-public">Public</span>
+      </div>
+    </section>
+
+    <!-- PROTECTED ROUTES -->
+    <section class="section" id="protected-routes">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">🔒</div>
+        <h2>Protected Routes</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p style="margin-bottom:20px;">Guarded by <code>proxy.ts</code> Edge middleware. Unauthenticated visitors are redirected to <code>/?auth=login&amp;redirect=&lt;original-path&gt;</code>.</p>
+
+      <div class="route-item">
+        <div>
+          <div class="route-path">/discover</div>
+          <div class="route-desc">Skill-matched project feed. Projects ranked by <code>score</code> returned from the backend's matching algorithm.</div>
+        </div>
+        <span class="auth-badge auth-protected">JWT</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/profile</div>
+          <div class="route-desc">Own profile — view all info, edit form, submitted applications list with Discord CTA on accepted entries.</div>
+        </div>
+        <span class="auth-badge auth-protected">JWT</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/projects/new</div>
+          <div class="route-desc">Create a new project. Status picker, multi-tag tech stack input, optional repo / demo / docs links.</div>
+        </div>
+        <span class="auth-badge auth-protected">JWT</span>
+      </div>
+      <div class="route-item">
+        <div>
+          <div class="route-path">/applications</div>
+          <div class="route-desc">Owner's inbox — all owned projects grouped in sidebar. Per-project application list filterable by pending / accepted / rejected. Accept and reject actions with optimistic UI updates.</div>
+        </div>
+        <span class="auth-badge auth-protected">JWT (owner)</span>
+      </div>
+    </section>
+
+    <!-- DESIGN SYSTEM -->
+    <section class="section" id="design-system">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(6,182,212,0.15)">🎨</div>
+        <h2>Design System</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">All colors and shadows are CSS custom properties defined in <code>globals.css</code>. Components reference variables — never hardcoded hex values.</p>
+
+      <h3>Color tokens</h3>
+      <table>
+        <thead><tr><th>Variable</th><th>Light</th><th>Dark</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr><td><code>--bg</code></td><td>#ffffff</td><td>#0c0e1d</td><td>Page background</td></tr>
+          <tr><td><code>--bg-raised</code></td><td>#f5f6fa</td><td>#141628</td><td>Cards, dropdowns</td></tr>
+          <tr><td><code>--bg-overlay</code></td><td>#eaecf4</td><td>#1c1e38</td><td>Hover states, inputs</td></tr>
+          <tr><td><code>--text</code></td><td>#0f1124</td><td>#eceef8</td><td>Primary text</td></tr>
+          <tr><td><code>--text-muted</code></td><td>#4a4e6b</td><td>#a0a4c8</td><td>Secondary text</td></tr>
+          <tr><td><code>--text-dim</code></td><td>#7b7fa0</td><td>#5e6285</td><td>Placeholders, metadata</td></tr>
+          <tr><td><code>--brand</code></td><td>#5d3fd3</td><td>#7c5ce8</td><td>Primary purple accent</td></tr>
+          <tr><td><code>--accent</code></td><td>#06b6d4</td><td>#22d3ee</td><td>Secondary cyan accent</td></tr>
+          <tr><td><code>--success</code></td><td>#22c55e</td><td>#4ade80</td><td>Accepted states, success</td></tr>
+          <tr><td><code>--danger</code></td><td>#ef4444</td><td>#f87171</td><td>Errors, rejected states</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Component classes</h3>
+      <table>
+        <thead><tr><th>Class</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>.dc-container</code></td><td>max-w-7xl centered, responsive px (4→6→8)</td></tr>
+          <tr><td><code>.dc-page</code></td><td>min-h-screen, pt-24 (navbar offset), pb-20</td></tr>
+          <tr><td><code>.dc-card</code></td><td>rounded-2xl, border, bg-raised, shadow-card</td></tr>
+          <tr><td><code>.dc-card-interactive</code></td><td>dc-card + hover: brand border + translateY(-1px)</td></tr>
+          <tr><td><code>.dc-btn-primary</code></td><td>Brand background, white text, glow on hover</td></tr>
+          <tr><td><code>.dc-btn-ghost</code></td><td>Transparent + border, brand color on hover</td></tr>
+          <tr><td><code>.dc-input</code></td><td>Rounded input with bg-overlay, brand focus ring</td></tr>
+          <tr><td><code>.dc-label</code></td><td>text-sm, font-medium, text-muted color</td></tr>
+          <tr><td><code>.dc-skeleton</code></td><td>Animated shimmer for loading states</td></tr>
+          <tr><td><code>.anim-fade-up</code></td><td>Fade in + slide up (page content entry)</td></tr>
+          <tr><td><code>.anim-scale-in</code></td><td>Scale from 88% (modals, dropdowns)</td></tr>
+          <tr><td><code>.delay-1</code> → <code>.delay-5</code></td><td>Animation delays: 80ms → 400ms</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- I18N -->
+    <section class="section" id="i18n">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(16,185,129,0.15)">🌐</div>
+        <h2>Internationalization</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p style="margin-bottom:20px;">Full English / Spanish support via a custom Zustand-based system in <code>src/app/i18n/index.ts</code>. The <code>t</code> object is fully typed — TypeScript errors if you reference a missing key.</p>
+
+      <div class="code-block">
+        <span class="code-label">tsx</span>
+        <span class="c">// In any component:</span><br>
+        <span class="k">const</span> { <span class="s">t</span>, <span class="s">locale</span>, <span class="s">setLocale</span> } = <span class="b">useI18n</span>()<br><br>
+        <span class="c">// Access a translated string:</span><br>
+        &lt;<span class="k">p</span>&gt;{t.<span class="s">profile</span>.<span class="s">memberSince</span>}&lt;/<span class="k">p</span>&gt;<br><br>
+        <span class="c">// Switch language:</span><br>
+        <span class="b">setLocale</span>(<span class="s">'es'</span>)
+      </div>
+
+      <h3>Dictionary sections</h3>
+      <table>
+        <thead><tr><th>Section</th><th>Covers</th></tr></thead>
+        <tbody>
+          <tr><td><code>t.nav</code></td><td>Navigation links, auth buttons, user menu items</td></tr>
+          <tr><td><code>t.landing</code></td><td>Hero, stats, features, sponsors, donate, CTA banner</td></tr>
+          <tr><td><code>t.auth</code></td><td>Login and registration form labels and buttons</td></tr>
+          <tr><td><code>t.projects</code></td><td>Project listing page — filters, search, empty states</td></tr>
+          <tr><td><code>t.project</code></td><td>Project detail — apply form, team, links, status labels</td></tr>
+          <tr><td><code>t.profile</code></td><td>Profile page — edit form labels, applications section</td></tr>
+          <tr><td><code>t.applications</code></td><td>Owner applications inbox — tabs, actions, empty states</td></tr>
+          <tr><td><code>t.about</code></td><td>About page — headline, mission, values, contact CTA</td></tr>
+          <tr><td><code>t.terms</code></td><td>Terms of Service — all 10 sections (title + body)</td></tr>
+          <tr><td><code>t.privacy</code></td><td>Privacy Policy — all 11 sections (title + body)</td></tr>
+          <tr><td><code>t.footer</code></td><td>Footer column headings, link labels, tagline, copyright</td></tr>
+          <tr><td><code>t.status</code></td><td>ProjectStatus and ApplicationStatus enum labels</td></tr>
+          <tr><td><code>t.common</code></td><td>Loading, error, retry, optional, notFound labels</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SCRIPTS -->
+    <section class="section" id="scripts">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(16,185,129,0.15)">⚡</div>
+        <h2>Scripts</h2>
+      </div>
+      <div class="section-divider"></div>
+      <div class="script-grid">
+        <div class="script-item">
+          <div class="script-cmd">yarn dev</div>
+          <div class="script-label">Start development server (hot reload)</div>
+        </div>
+        <div class="script-item">
+          <div class="script-cmd">yarn build</div>
+          <div class="script-label">Build production bundle</div>
+        </div>
+        <div class="script-item">
+          <div class="script-cmd">yarn start</div>
+          <div class="script-label">Serve production build (requires build)</div>
+        </div>
+        <div class="script-item">
+          <div class="script-cmd">yarn lint</div>
+          <div class="script-label">Run ESLint across all source files</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTRIBUTING -->
+    <section class="section" id="contributing">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(124,58,237,0.15)">🤝</div>
+        <h2>Contributing</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="flow-diagram">
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">1</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Fork & Clone</div>
+              <div class="flow-desc">Fork the repository on GitHub and clone your fork locally. Add upstream remote: <code>git remote add upstream https://github.com/M41k80/devconnect-web.git</code></div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">2</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Create a Branch</div>
+              <div class="flow-desc"><code>git checkout -b feat/your-feature-name</code> — branch from an up-to-date <code>main</code>.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">3</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Write Code</div>
+              <div class="flow-desc">Follow the architecture: thin pages, hooks for data, components for rendering. No <code>any</code> types. CSS variables for colors. Both EN and ES strings in i18n.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">4</div><div class="flow-connector"></div></div>
+            <div class="flow-content">
+              <div class="flow-title">Commit (Conventional Commits)</div>
+              <div class="flow-desc">
+                <code>feat(notifications): add green badge for accepted apps</code><br>
+                <code>fix(auth): prevent double modal on 401</code><br>
+                <code>style(landing): improve dark mode contrast</code>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-line"><div class="flow-circle">5</div></div>
+            <div class="flow-content" style="padding-bottom:0">
+              <div class="flow-title">Open a Pull Request</div>
+              <div class="flow-desc">Push your branch and open a PR against <code>main</code>. Ensure <code>yarn lint</code> and <code>yarn build</code> pass. Test in light + dark mode and on mobile.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;border-color:rgba(124,58,237,0.3);background:rgba(124,58,237,0.05);text-align:center;">
+        <p style="color:var(--text-muted);">Made with ❤️ by <a href="https://github.com/M41k80" style="color:#a78bfa;">m41k80</a> · MIT License · <a href="https://discord.gg/5xEWnfJDjt" style="color:#a78bfa;">Join Discord</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const navItems = document.querySelectorAll('.nav-item');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navItems.forEach(item => {
+            item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    document.querySelectorAll('[id]').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
