@@ -28,7 +28,7 @@ import {
 import { Project, ProjectMember } from "@/app/types/entities";
 import { GitBranch } from "lucide-react";
 
-const DISCORD_URL = "https://discord.gg/fRPSECNF";
+const DISCORD_URL = "https://discord.gg/5xEWnfJDjt";
 
 function DiscordBanner({ projectTitle }: { projectTitle: string }) {
   return (

@@ -8,6 +8,7 @@ import { Features } from '@/app/components/landing/Features'
 import { Sponsors } from '@/app/components/landing/Sponsors'
 import { Donate } from '@/app/components/landing/Donate'
 import { CTABanner } from '@/app/components/landing/CTABanner'
+import { SimulationsTeaser } from './components/landing/SimulationsTeaser';
 
 export default function LandingPage() {
   return (
@@ -18,6 +19,7 @@ export default function LandingPage() {
       <Features />
       <Sponsors />
       <Donate />
+      <SimulationsTeaser />
       <CTABanner />
       <Footer />
     </div>
